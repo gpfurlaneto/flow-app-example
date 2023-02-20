@@ -1,0 +1,78 @@
+{
+  "contracts": {
+    "FungibleToken": {
+      "source": "./cadence/contracts/FungibleToken.cdc",
+      "aliases": {
+        "emulator": "0xee82856bf20e2aa6",
+        "mainnet": "0xf233dcee88fe0abe",
+        "testnet": "0x9a0766d93b6608b7"
+      }
+    },
+    "FurlanetoNFT": {
+      "source": "./cadence/contracts/FurlanetoNFT.cdc",
+      "aliases": {
+        "emulator": "0xf8d6e0586b0a20c7",
+        "testnet": "0x480c38915dba63c8"
+      }
+    },
+    "MetadataViews": {
+      "source": "./cadence/contracts/MetadataViews.cdc",
+      "aliases": {
+        "emulator": "0xf8d6e0586b0a20c7",
+        "mainnet": "0x1d7e57aa55817448",
+        "testnet": "0x631e88ae7f1d7c20"
+      }
+    },
+    "NFTStorefrontV2": {
+      "source": "./cadence/contracts/NFTStorefrontV2.cdc",
+      "aliases": {
+        "emulator": "0xf8d6e0586b0a20c7",
+        "mainnet": "0x4eb8a10cb9f87357",
+        "testnet": "0x2d55b98eb200daef"
+      }
+    },
+    "NonFungibleToken": {
+      "source": "./cadence/contracts/NonFungibleToken.cdc",
+      "aliases": {
+        "emulator": "0xf8d6e0586b0a20c7",
+        "mainnet": "0x1d7e57aa55817448",
+        "testnet": "0x631e88ae7f1d7c20"
+      }
+    }
+  },
+  "networks": {
+    "emulator": "127.0.0.1:3569",
+    "mainnet": "access.mainnet.nodes.onflow.org:9000",
+    "sandboxnet": "access.sandboxnet.nodes.onflow.org:9000",
+    "testnet": "access.devnet.nodes.onflow.org:9000"
+  },
+  "accounts": {
+    "emulator-account": {
+      "address": "f8d6e0586b0a20c7",
+      "key": "f8e188e8af0b8b414be59c4a1a15cc666c898fb34d94156e9b51e18bfde754a5"
+    },
+    "testnet-account": {
+      "address": "0x480c38915dba63c8",
+      "key": {
+        "type": "hex",
+        "index": "$INDEX",
+        "signatureAlgorithm": "ECDSA_P256",
+        "hashAlgorithm": "SHA2_256",
+        "privateKey": "$PRIVATE_KEY"
+      }
+    }
+  },
+  "deployments": {
+    "emulator": {
+      "emulator-account": [
+        "NonFungibleToken",
+        "MetadataViews",
+        "NFTStorefrontV2",
+        "FurlanetoNFT"
+      ]
+    },
+    "testnet": {
+      "testnet-account": ["FurlanetoNFT"]
+    }
+  }
+}
