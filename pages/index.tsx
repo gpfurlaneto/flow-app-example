@@ -1,4 +1,5 @@
-import fs from "fs";
+import { promises as fs } from "fs";
+import path from "path";
 
 import * as fcl from "@onflow/fcl";
 import { authenticate } from "@onflow/fcl";
@@ -8,16 +9,25 @@ import useCurrentUser from "../hooks/use-current-user";
 import { Listing } from "../typings/Listing";
 
 export async function getServerSideProps() {
-  const getAllListingsCode = fs
-    .readFileSync("cadence/scripts/get_all_listings.cdc")
-    .toString();
-  const buyItemCode = fs
-    .readFileSync("cadence/transactions/buy_item.cdc")
-    .toString();
+  // const getAllListingsCode = fs
+  //   .readFileSync("cadence/scripts/get_all_listings.cdc")
+  //   .toString();
+
+  //Find the absolute path of the json directory
+  const jsonDirectory = path.join(process.cwd(), "cadence");
+  //Read the json data file data.json
+  const fileContents = await fs.readFile(
+    jsonDirectory + "/scripts/get_all_listings.cdc",
+    "utf8"
+  );
+
+  // const buyItemCode = fs
+  //   .readFileSync("cadence/transactions/buy_item.cdc")
+  //   .toString();
   return {
     props: {
-      getAllListingsCode,
-      buyItemCode,
+      getAllListingsCode: fileContents,
+      buyItemCode: "",
     }, // will be passed to the page component as props
   };
 }
