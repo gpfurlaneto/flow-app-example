@@ -1,9 +1,13 @@
-import { useRouter } from "next/router"
+import { useRouter } from "next/router";
 
 export default function Breadcrumb() {
-  const router = useRouter()
-  const label = router.asPath === '/' ? 'Home' : 'My NFTs'
+  const router = useRouter();
+  const labels: any = {
+    "/": "Home",
+    "/my-nfts": "My NFTs",
+    "/search": "Search",
+  };
   return (
-    <div className='mb-5 mr-auto'>{label}</div>
-  )
+    <div className="mb-5 mr-auto">{labels[router.pathname as string]}</div>
+  );
 }
