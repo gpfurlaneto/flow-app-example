@@ -47,10 +47,10 @@ export default function Home() {
   }, [getAccount, getTransaction, term]);
 
   return (
-    <div className="w-screen lg:w-9/12">
+    <div className="w-full">
       {result && (
         <JSONPretty
-          className=" m-10 p-10"
+          className="mb-10 pb-10"
           data={result}
           theme={JSONPrettyMon}
         ></JSONPretty>

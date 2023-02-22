@@ -11,7 +11,7 @@ export async function getServerSideProps() {
   const cadenceDirectory = path.join(process.cwd(), "cadence");
 
   const getAllListingsCode = await fs.readFile(
-    cadenceDirectory + "/scripts/get_all_listings.cdc",
+    cadenceDirectory + "/scripts/get_my_nfts.cdc",
     "utf8"
   );
 

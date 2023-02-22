@@ -46,7 +46,7 @@ export default function NFTList({
   };
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="flex flex-col items-center lg:grid grid-cols-3 gap-4">
       {items.map((item) => {
         const nft = (item as Listing).listingResourceID
           ? (item as Listing).nft
