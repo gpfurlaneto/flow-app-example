@@ -1,15 +1,20 @@
 import { useEffect } from "react";
 
-import fs from "fs";
+import { promises as fs } from "fs";
 import { useRouter } from "next/router";
+import path from "path";
 
 import NFTList from "../components/NFTList";
 import useCurrentUser from "../hooks/use-current-user";
 
 export async function getServerSideProps() {
-  const getAllListingsCode = fs
-    .readFileSync("cadence/scripts/get_my_nfts.cdc")
-    .toString();
+  const cadenceDirectory = path.join(process.cwd(), "cadence");
+
+  const getAllListingsCode = await fs.readFile(
+    cadenceDirectory + "/scripts/get_all_listings.cdc",
+    "utf8"
+  );
+
   return {
     props: {
       getAllListingsCode,

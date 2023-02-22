@@ -1,4 +1,5 @@
-import fs from "fs";
+import { promises as fs } from "fs";
+import path from "path";
 
 import * as fcl from "@onflow/fcl";
 import { authenticate } from "@onflow/fcl";
@@ -8,12 +9,18 @@ import useCurrentUser from "../hooks/use-current-user";
 import { Listing } from "../typings/Listing";
 
 export async function getServerSideProps() {
-  const getAllListingsCode = fs
-    .readFileSync("cadence/scripts/get_all_listings.cdc")
-    .toString();
-  const buyItemCode = fs
-    .readFileSync("cadence/transactions/buy_item.cdc")
-    .toString();
+  const cadenceDirectory = path.join(process.cwd(), "cadence");
+
+  const getAllListingsCode = await fs.readFile(
+    cadenceDirectory + "/scripts/get_all_listings.cdc",
+    "utf8"
+  );
+
+  const buyItemCode = await fs.readFile(
+    cadenceDirectory + "/transactions/buy_item.cdc",
+    "utf8"
+  );
+
   return {
     props: {
       getAllListingsCode,
