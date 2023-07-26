@@ -1,10 +1,18 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
-import * as fcl from "@onflow/fcl";
+import * as fcl from '@onflow/fcl';
 
-import LoadingContext, { ILoadingContext } from "../hooks/LoadingContext";
-import { Listing, NFT } from "../typings/Listing";
-import NFTCard from "./NFTCard";
+import LoadingContext, { ILoadingContext } from '../hooks/LoadingContext';
+import {
+  Listing,
+  NFT,
+} from '../typings/Listing';
+import NFTCard from './NFTCard';
 
 interface NFTListProps {
   address: string;

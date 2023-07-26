@@ -1,12 +1,12 @@
-import { promises as fs } from "fs";
-import path from "path";
+import { promises as fs } from 'fs';
+import path from 'path';
 
-import * as fcl from "@onflow/fcl";
-import { authenticate } from "@onflow/fcl";
+import * as fcl from '@onflow/fcl';
+import { authenticate } from '@onflow/fcl';
 
-import NFTList from "../components/NFTList";
-import useCurrentUser from "../hooks/use-current-user";
-import { Listing } from "../typings/Listing";
+import NFTList from '../components/NFTList';
+import useCurrentUser from '../hooks/use-current-user';
+import { Listing } from '../typings/Listing';
 
 export async function getServerSideProps() {
   const cadenceDirectory = path.join(process.cwd(), "cadence");

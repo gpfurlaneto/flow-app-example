@@ -90,30 +90,15 @@ pub contract FurlanetoNFT: NonFungibleToken {
             switch view {
                 case Type<MetadataViews.Display>():
                     return MetadataViews.Display(
-                        name: self.name,
-                        description: self.description,
-                        thumbnail: MetadataViews.HTTPFile(
-                            url: self.thumbnail
-                        )
-                    )
-                case Type<MetadataViews.Editions>():
-                    // There is no max number of NFTs that can be minted from this contract
-                    // so the max edition field value is set to nil
-                    let editionInfo = MetadataViews.Edition(name: "Furlaneto NFT Edition", number: self.id, max: nil)
-                    let editionList: [MetadataViews.Edition] = [editionInfo]
-                    return MetadataViews.Editions(
-                        editionList
-                    )
-                case Type<MetadataViews.Serial>():
-                    return MetadataViews.Serial(
-                        self.id
-                    )
-                case Type<MetadataViews.Royalties>():
-                    return MetadataViews.Royalties(
-                        self.royalties
-                    )
+                      name: self.name,
+                      description: self.description,
+                      thumbnail: MetadataViews.IPFSFile(
+                          cid: self.thumbnail,
+                          path: nil
+                      )
+                )
                 case Type<MetadataViews.ExternalURL>():
-                    return MetadataViews.ExternalURL("https://furlaneto-nft.com.br/flow-nft/nft/".concat(self.id.toString()))
+                    return MetadataViews.ExternalURL("https://flow-app.gpfurlaneto.com/nft/".concat(self.id.toString()))
                 case Type<MetadataViews.NFTCollectionData>():
                     return MetadataViews.NFTCollectionData(
                         storagePath: FurlanetoNFT.CollectionStoragePath,
@@ -126,38 +111,6 @@ pub contract FurlanetoNFT: NonFungibleToken {
                             return <-FurlanetoNFT.createEmptyCollection()
                         })
                     )
-                case Type<MetadataViews.NFTCollectionDisplay>():
-                    let media = MetadataViews.Media(
-                        file: MetadataViews.HTTPFile(
-                            url: "https://assets.website-files.com/5f6294c0c7a8cdd643b1c820/5f6294c0c7a8cda55cb1c936_Flow_Wordmark.svg"
-                        ),
-                        mediaType: "image/svg+xml"
-                    )
-                    return MetadataViews.NFTCollectionDisplay(
-                        name: "The Furlaneto Collection",
-                        description: "This collection is used as an example to help you develop your next Flow NFT.",
-                        externalURL: MetadataViews.ExternalURL("https://furlaneto-nft.com.br"),
-                        squareImage: media,
-                        bannerImage: media,
-                        socials: {
-                            "linkedin": MetadataViews.ExternalURL("https://br.linkedin.com/in/guilhermefurlaneto")
-                        }
-                    )
-                case Type<MetadataViews.Traits>():
-                    // exclude mintedTime and foo to show other uses of Traits
-                    let excludedTraits = ["mintedTime", "foo"]
-                    let traitsView = MetadataViews.dictToTraits(dict: self.metadata, excludedNames: excludedTraits)
-
-                    // mintedTime is a unix timestamp, we should mark it with a displayType so platforms know how to show it.
-                    let mintedTimeTrait = MetadataViews.Trait(name: "mintedTime", value: self.metadata["mintedTime"]!, displayType: "Date", rarity: nil)
-                    traitsView.addTrait(mintedTimeTrait)
-
-                    // foo is a trait with its own rarity
-                    let fooTraitRarity = MetadataViews.Rarity(score: 10.0, max: 100.0, description: "Common")
-                    let fooTrait = MetadataViews.Trait(name: "foo", value: self.metadata["foo"], displayType: nil, rarity: fooTraitRarity)
-                    traitsView.addTrait(fooTrait)
-                    
-                    return traitsView
 
             }
             return nil
@@ -354,3 +307,4 @@ pub contract FurlanetoNFT: NonFungibleToken {
         emit ContractInitialized()
     }
 }
+ 

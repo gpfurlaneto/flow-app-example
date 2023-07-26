@@ -2,8 +2,7 @@ export interface NFT {
   id: string,
   name: string
   description: string
-  thumbnail: string
-  uuid: string
+  view: string
   owner?: string
 }
 

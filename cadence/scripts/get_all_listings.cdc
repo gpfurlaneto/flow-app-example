@@ -7,15 +7,35 @@ pub struct Details {
   pub let nftID: UInt64
   pub let salePrice: UFix64
   pub let expiry: UInt64
-  pub let nft: &AnyResource{MetadataViews.Resolver}
+  pub let nft: NFT
   pub let listingResourceID: UInt64
 
-  init (nftID: UInt64, salePrice: UFix64, expiry: UInt64, nft: &AnyResource{MetadataViews.Resolver}, listingResourceID: UInt64) {
+  init (nftID: UInt64, salePrice: UFix64, expiry: UInt64, listingResourceID: UInt64, nft: NFT) {
     self.nftID = nftID
     self.expiry = expiry
     self.salePrice = salePrice
     self.nft = nft
     self.listingResourceID = listingResourceID
+  }
+}
+
+
+pub struct NFT {
+  pub let id: UInt64
+  pub let name: String
+  pub let description: String
+  pub let view: String
+
+  init(
+    id: UInt64,
+    name: String,
+    description: String,
+    view: String
+  ) {
+    self.id = id
+    self.name = name
+    self.description = description
+    self.view = view
   }
 }
 
@@ -28,7 +48,7 @@ pub fun main(address: Address): [Details] {
 
   let collection = account
             .getCapability(FurlanetoNFT.CollectionPublicPath)
-            .borrow<&{NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection}>()
+            .borrow<&{NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection, FurlanetoNFT.FurlanetoNFTCollectionPublic}>()
             ?? panic("Could not get receiver reference to the NFT Collection")
 
   let listingIDs = storefront.getListingIDs()
@@ -38,14 +58,23 @@ pub fun main(address: Address): [Details] {
     if(!listingDetails.purchased){
       let nftID = listingDetails.nftID
 
-      let nft = collection.borrowViewResolver(id: nftID)
+      let nft = collection.borrowFurlanetoNFT(id: nftID)!
+      let view = nft.resolveView(Type<MetadataViews.Display>())!
+      let display = view as! MetadataViews.Display
+    
       listings.append(
         Details(
           nftID: listingDetails.nftID,
           salePrice: listingDetails.salePrice,
           expiry: listingDetails.expiry,
-          nft: nft,
-          listingResourceID: listingResourceID)
+          listingResourceID: listingResourceID,
+          nft: NFT(
+            id: nftID,
+            name: nft.name,
+            description: nft.description,
+            view: display.thumbnail.uri()
+          )
+        )
       )
     }
   }

@@ -10,23 +10,23 @@ import useCurrentUser from "../hooks/use-current-user";
 export async function getServerSideProps() {
   const cadenceDirectory = path.join(process.cwd(), "cadence");
 
-  const getAllListingsCode = await fs.readFile(
+  const getMyNFTs = await fs.readFile(
     cadenceDirectory + "/scripts/get_my_nfts.cdc",
     "utf8"
   );
 
   return {
     props: {
-      getAllListingsCode,
+      getMyNFTs,
     }, // will be passed to the page component as props
   };
 }
 
 interface MyNFTsProps {
-  getAllListingsCode: string;
+  getMyNFTs: string;
 }
 
-export default function MyNFTs({ getAllListingsCode }: MyNFTsProps) {
+export default function MyNFTs({ getMyNFTs }: MyNFTsProps) {
   const router = useRouter();
   const user = useCurrentUser();
 
@@ -38,10 +38,7 @@ export default function MyNFTs({ getAllListingsCode }: MyNFTsProps) {
 
   return (
     user?.addr && (
-      <NFTList
-        address={user.addr as string}
-        getItemsScriptCode={getAllListingsCode}
-      />
+      <NFTList address={user.addr as string} getItemsScriptCode={getMyNFTs} />
     )
   );
 }
