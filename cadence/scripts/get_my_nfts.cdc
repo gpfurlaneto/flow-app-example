@@ -3,15 +3,16 @@ import MetadataViews from 0xMetadataViews
 import NonFungibleToken from 0xNonFungibleToken
 
 pub struct NFT {
-  pub let id: UInt64,
+  pub let id: UInt64
   pub let name: String
   pub let description: String
   pub let view: String
 
   init(
     id: UInt64,
-    name: String
-    description: String
+    name: String,
+    description: String,
+    view: String
   ) {
     self.id = id
     self.name = name
@@ -20,7 +21,7 @@ pub struct NFT {
   }
 }
 
-pub fun main(address: Address): [&AnyResource{MetadataViews.Resolver}] {
+pub fun main(address: Address): [NFT] {
 
   let account = getAccount(address)
   
@@ -30,18 +31,18 @@ pub fun main(address: Address): [&AnyResource{MetadataViews.Resolver}] {
             ?? panic("Could not get receiver reference to the NFT Collection")
 
   let nftIDs = collection.getIDs()
-  let nfts: [&AnyResource{MetadataViews.Resolver}] = []
+  let nfts: [NFT] = []
   for nftID in nftIDs {
-    let nft = collection.borrowViewResolver(id: nftID)
-    let view = nft.resolveView(Type<MetadataViews.Display>())!
+    let resolver = collection.borrowViewResolver(id: nftID)
+    let view = resolver.resolveView(Type<MetadataViews.Display>())!
     let display = view as! MetadataViews.Display
 
-    nfts.append({
-      id: nft.id,
-      name: nft.name,
-      description: nft.description,
+    nfts.append(NFT(
+      id: nftID,
+      name: display.name,
+      description: display.description,
       view: display.thumbnail.uri()
-    })
+    ))
   }
   return nfts
 }
