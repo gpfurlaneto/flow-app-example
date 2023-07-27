@@ -19,10 +19,10 @@ export default function NFTCard({ nft, price, onClickBuy }: NFTCardProps) {
     ""
   )}`;
 
-  console.log(1, url);
+  
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg border border-solid">
-      <Image src={url} width={500} height={500} alt="" />
+      <Image src={encodeURI(url)} width={500} height={500} alt="" />
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">{nft.name}</div>
         <div className="font-bold text-xs mb-2">{nft.description}</div>
