@@ -51,7 +51,7 @@ export default function WalletDialog({ wallet, onClose }: WalletDialogProps) {
       {isLoading && <Loading />}
       <div className="relative w-full max-w-xs p-10 text-center rounded-md flex flex-col gap-4 bg-white text-black m-10">
         <svg className="absolute right-3 top-3 cursor-pointer h-4 w-4" onClick={onClose} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
         <span>{wallet}</span>
         <div className='flex flex-row mx-auto gap-2 justify-center items-center'>{response}<FlowToken width={20} height={20}/></div>
