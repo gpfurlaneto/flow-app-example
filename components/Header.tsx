@@ -1,17 +1,28 @@
-import { useContext, useEffect, useState } from "react";
-import Button from "./Button";
-import Input from "./Input";
-import { useRouter } from 'next/router'
-import Link from "next/link";
-import { authenticate, unauthenticate } from '@onflow/fcl'
-import useCurrentUser from "../hooks/use-current-user";
-import Dropdown from "./Dropdown";
+import {
+  useEffect,
+  useState,
+} from 'react';
+
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+import {
+  authenticate,
+  unauthenticate,
+} from '@onflow/fcl';
+
+import useCurrentUser from '../hooks/use-current-user';
+import Button from './Button';
+import Dropdown from './Dropdown';
+import Input from './Input';
+import WalletDialog from './WalletDialog';
 
 export default function Header() {
   const router = useRouter()
   const [search, setSearch] = useState('') ?? {}
   const { addr, wallet } = useCurrentUser() ?? {}
   const walletActionLabel = wallet ?? 'Connect Wallet'
+  const [showWallet, setShowWallet] = useState(false)
 
   useEffect(() => {
     if(router.query.term){
@@ -32,13 +43,12 @@ export default function Header() {
       <Input className="w-[40rem] rounded-lg border border-[#5f6368]" onKeyPress={keyboardEvents} value={search} onChange={(element) => setSearch(element.target.value)}/>
       {!addr && <Button className="min-w-[10rem]" onClick={authenticate}>Connect Wallet</Button>}
       {addr && <Dropdown className="min-w-[10rem]" label={walletActionLabel} items={[
-        { label: "My Wallet", action: () => alert('show wallet') },
+        { label: "My Wallet", action: () => setShowWallet(true) },
         { label: "My NFTs", href: "/my-nfts"},
         { label: "Disconect", action: unauthenticate}
       ]}/>
       }
-
-
+      {showWallet && <WalletDialog wallet={addr} onClose={() => setShowWallet(false)} />}
     </div>
   )
 }

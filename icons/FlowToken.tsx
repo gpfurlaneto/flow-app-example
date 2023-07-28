@@ -1,6 +1,6 @@
-export default function FlowToken() {
+export default function FlowToken({ width = 30, height = 30 }) {
   return (
-    <svg version="1.1" x="0px" y="0px" viewBox="0 0 30 30" width={30} height={30}>
+    <svg version="1.1" x="0px" y="0px" viewBox="0 0 30 30" width={width} height={height}>
       <g transform="scale(0.28)">
         <circle id="circle20" style={{ fill: '#00EF8B'}} cx="50" cy="50" r="50"/>
         <rect id="rect22" x="57.8" y="42.2" style={{ fill: '#FFFFFF' }} width="14.1" height="14.1"/>

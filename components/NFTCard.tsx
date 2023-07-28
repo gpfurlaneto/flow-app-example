@@ -19,7 +19,6 @@ export default function NFTCard({ nft, price, onClickBuy }: NFTCardProps) {
     ""
   )}`;
 
-  console.log(1, url);
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg border border-solid">
       <Image src={url} width={500} height={500} alt="" />
