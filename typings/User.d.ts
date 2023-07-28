@@ -1,4 +1,4 @@
 export type User = {
-  addr: String
+  addr: string
   wallet?: string | null
 }
