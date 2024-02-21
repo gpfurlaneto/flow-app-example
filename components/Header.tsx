@@ -25,13 +25,13 @@ export default function Header() {
   const [showWallet, setShowWallet] = useState(false)
 
   useEffect(() => {
-    if(router.query.term){
+    if (router.query.term) {
       setSearch(router.query?.term as string)
     }
   }, [router.query.term, setSearch])
 
   const keyboardEvents = async (event: any) => {
-    if(event.key === 'Enter' && search){
+    if (event.key === 'Enter' && search) {
       event.persist();
       router.push(`/search?term=${search.replace(/\s/g, '')}`)
     }
@@ -40,13 +40,18 @@ export default function Header() {
   return (
     <div className="flex flex-row py-4 px-8 w-full mb-16 border-b border-solid border-[#222]">
       <Link className="flex flex-row items-center mr-auto" href="/">Furlaneto NFTs</Link>
-      <Input className="w-[40rem] rounded-lg border border-[#5f6368]" onKeyPress={keyboardEvents} value={search} onChange={(element) => setSearch(element.target.value)}/>
+      <Input
+        className="w-[40rem] rounded-lg border border-[#5f6368]"
+        onKeyUp={keyboardEvents} value={search}
+        onChange={(element) => setSearch(element.target.value)}
+        placeholder='Search for a transaction/wallet by id'
+      />
       {!addr && <Button className="min-w-[10rem]" onClick={authenticate}>Connect Wallet</Button>}
       {addr && <Dropdown className="min-w-[10rem]" label={walletActionLabel} items={[
         { label: "My Wallet", action: () => setShowWallet(true) },
-        { label: "My NFTs", href: "/my-nfts"},
-        { label: "Disconect", action: unauthenticate}
-      ]}/>
+        { label: "My NFTs", href: "/my-nfts" },
+        { label: "Disconect", action: unauthenticate }
+      ]} />
       }
       {showWallet && <WalletDialog wallet={addr} onClose={() => setShowWallet(false)} />}
     </div>
